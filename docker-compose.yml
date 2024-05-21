@@ -18,6 +18,7 @@ services:
     depends_on:
       - db
       - elasticsearch
+      - mailhog
 
   db:
     image: postgres:13
@@ -36,6 +37,12 @@ services:
       - discovery.type=single-node
     ports:
       - "9200:9200"
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   db_data:
