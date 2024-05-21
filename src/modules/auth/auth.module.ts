@@ -1,13 +1,25 @@
-import * as bcrypt from 'bcrypt';
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-export const hashPassword = async (password: string): Promise<string> => {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
-};
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { JwtStrategy } from './jwt.strategy';
+import { UserModule } from '../user/user.module';
+import { User } from '../user/user.entity';
+import { jwtConfig } from '../../config/jwt.config';
+import { MailModule } from '../mail/mail.module';
 
-export const comparePassword = async (
-  password: string,
-  hash: string,
-): Promise<boolean> => {
-  return bcrypt.compare(password, hash);
-};
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    PassportModule,
+    JwtModule.register(jwtConfig),
+    UserModule,
+    MailModule,
+  ],
+  providers: [AuthService, JwtStrategy],
+  controllers: [AuthController],
+})
+export class AuthModule {}
