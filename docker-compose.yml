@@ -1,0 +1,41 @@
+# docker-compose.yml
+version: '3.1'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=cofound
+      - DATABASE_PASSWORD=cofound
+      - DATABASE_NAME=cofound
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    depends_on:
+      - db
+      - elasticsearch
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: cofound
+      POSTGRES_USER: cofound
+      POSTGRES_PASSWORD: cofound
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+volumes:
+  db_data:
