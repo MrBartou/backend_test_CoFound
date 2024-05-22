@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -37,6 +38,18 @@ export class UserController {
   @Roles('admin', 'user')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
+  }
+
+  @Patch(':id/activate')
+  @Roles('admin')
+  async confirmEmail(@Param('id') id: number) {
+    return this.userService.activate(id);
+  }
+
+  @Patch(':id/desactivate')
+  @Roles('admin')
+  async deactivate(@Param('id') id: number) {
+    return this.userService.deactivate(id);
   }
 
   @Delete(':id')
