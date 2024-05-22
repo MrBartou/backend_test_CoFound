@@ -15,6 +15,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
 import { RoleModule } from './modules/role/role.module';
+import { CategorieModule } from './modules/categories/categorie.module';
 
 import { databaseConfig } from './config/database.config';
 import { elasticsearchConfig } from './config/elasticsearch.config';
@@ -32,6 +33,7 @@ import { jwtConfig } from './config/jwt.config';
     UserModule,
     RoleModule,
     ProfileModule,
+    CategorieModule,
     // ProjectModule,
     // MessageModule,
     // ReviewModule,
