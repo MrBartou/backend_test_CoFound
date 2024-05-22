@@ -13,6 +13,7 @@ import { mailConfig } from './config/mail.config';
 // import { ReviewModule } from './modules/review/review.module';
 // import { SearchModule } from './modules/search/search.module';
 // import { AuthModule } from './modules/auth/auth.module';
+import { RoleModule } from './modules/role/role.module';
 
 import { databaseConfig } from './config/database.config';
 import { elasticsearchConfig } from './config/elasticsearch.config';
@@ -27,6 +28,7 @@ import { jwtConfig } from './config/jwt.config';
     TypeOrmModule.forRoot(databaseConfig),
     ElasticsearchModule.register(elasticsearchConfig),
     JwtModule.register(jwtConfig),
+    RoleModule,
     // UserModule,
     // ProfileModule,
     // ProjectModule,
