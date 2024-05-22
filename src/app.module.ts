@@ -14,6 +14,7 @@ import { UserModule } from './modules/user/user.module';
 // import { SearchModule } from './modules/search/search.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
+import { RoleModule } from './modules/role/role.module';
 
 import { databaseConfig } from './config/database.config';
 import { elasticsearchConfig } from './config/elasticsearch.config';
@@ -29,6 +30,8 @@ import { jwtConfig } from './config/jwt.config';
     ElasticsearchModule.register(elasticsearchConfig),
     JwtModule.register(jwtConfig),
     UserModule,
+    RoleModule,
+    // UserModule,
     // ProfileModule,
     // ProjectModule,
     // MessageModule,
