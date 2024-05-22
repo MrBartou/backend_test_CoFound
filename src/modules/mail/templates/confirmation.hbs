@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email de Bienvenue</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .email-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .confirm-link {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            margin-top: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .confirm-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Bienvenue {{name}} !</h1>
+        </div>
+        <div class="email-content">
+            <p>Merci de confirmer votre email en cliquant sur le lien suivant :</p>
+            {{#if url}}
+                <a href="{{url}}" class="confirm-link">Confirmer mon Email</a>
+            {{else}}
+                <p>Le lien de confirmation n'est pas disponible pour le moment. Veuillez contacter le support.</p>
+            {{/if}}
+        </div>
+    </div>
+</body>
+</html>

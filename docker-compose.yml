@@ -15,9 +15,16 @@ services:
       - DATABASE_NAME=cofound
       - ELASTICSEARCH_HOST=elasticsearch
       - ELASTICSEARCH_PORT=9200
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_USER=
+      - SMTP_PASSWORD=
     depends_on:
       - db
       - elasticsearch
+      - mailhog
+    networks:
+      - cofound-network
 
   db:
     image: postgres:13
@@ -27,6 +34,8 @@ services:
       POSTGRES_PASSWORD: cofound
     ports:
       - "5432:5432"
+    networks:
+      - cofound-network
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -36,6 +45,32 @@ services:
       - discovery.type=single-node
     ports:
       - "9200:9200"
+    networks:
+      - cofound-network
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - cofound-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
+    depends_on:
+      - db
+    networks:
+      - cofound-network
 
 volumes:
   db_data:
+
+networks:
+  cofound-network:
+    driver: bridge
