@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user/user.module';
-import { User } from '../user/user.entity';
+import { User } from '../user/entities/user.entities';
 import { jwtConfig } from '../../config/jwt.config';
 import { MailModule } from '../mail/mail.module';
 
