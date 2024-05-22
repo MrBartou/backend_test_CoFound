@@ -8,7 +8,7 @@ import { mailConfig } from './config/mail.config';
 
 import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
-// import { ProjectModule } from './modules/project/project.module';
+import { ProjectModule } from './modules/project/project.module';
 // import { MessageModule } from './modules/message/message.module';
 // import { ReviewModule } from './modules/review/review.module';
 // import { SearchModule } from './modules/search/search.module';
@@ -34,7 +34,7 @@ import { jwtConfig } from './config/jwt.config';
     RoleModule,
     ProfileModule,
     CategorieModule,
-    // ProjectModule,
+    ProjectModule,
     // MessageModule,
     // ReviewModule,
     // SearchModule,
