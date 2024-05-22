@@ -42,6 +42,14 @@ export class UserService {
     return this.findById(id);
   }
 
+  async activate(id: number): Promise<void> {
+    await this.userRepository.update(id, { isActive: true });
+  }
+
+  async deactivate(id: number): Promise<void> {
+    await this.userRepository.update(id, { isActive: false });
+  }
+
   async remove(id: number): Promise<void> {
     const user = await this.findById(id);
     await this.userRepository.remove(user);
