@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .email-container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; }
+        .email-header { background-color: #f4f4f4; padding: 10px; text-align: center; }
+        .email-content { margin-top: 20px; }
+        .confirm-link { background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Welcome {{name}}!</h1>
+        </div>
+        <div class="email-content">
+            <p>Please confirm your email by clicking on the following link:</p>
+            {{#if url}}
+                <a href="{{url}}" class="confirm-link">Confirm Email</a>
+            {{else}}
+                <p>Confirmation link is not available at the moment. Please contact support.</p>
+            {{/if}}
+        </div>
+    </div>
+</body>
+</html>
