@@ -15,6 +15,10 @@ services:
       - DATABASE_NAME=cofound
       - ELASTICSEARCH_HOST=elasticsearch
       - ELASTICSEARCH_PORT=9200
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_USER=
+      - SMTP_PASSWORD=
     depends_on:
       - db
       - elasticsearch
