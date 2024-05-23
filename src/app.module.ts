@@ -10,7 +10,7 @@ import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ProjectModule } from './modules/project/project.module';
 // import { MessageModule } from './modules/message/message.module';
-// import { ReviewModule } from './modules/review/review.module';
+import { ReviewModule } from './modules/review/review.module';
 // import { SearchModule } from './modules/search/search.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
@@ -36,7 +36,7 @@ import { jwtConfig } from './config/jwt.config';
     CategorieModule,
     ProjectModule,
     // MessageModule,
-    // ReviewModule,
+    ReviewModule,
     // SearchModule,
     AuthModule,
     MailModule,
