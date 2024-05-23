@@ -12,6 +12,7 @@ import { ProjectModule } from './modules/project/project.module';
 // import { MessageModule } from './modules/message/message.module';
 // import { ReviewModule } from './modules/review/review.module';
 // import { SearchModule } from './modules/search/search.module';
+import { ConversationModule } from './modules/conversation/conversation.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
 import { RoleModule } from './modules/role/role.module';
@@ -35,6 +36,7 @@ import { jwtConfig } from './config/jwt.config';
     ProfileModule,
     CategorieModule,
     ProjectModule,
+    ConversationModule,
     // MessageModule,
     // ReviewModule,
     // SearchModule,
