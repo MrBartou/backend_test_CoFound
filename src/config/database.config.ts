@@ -6,7 +6,7 @@ dotenv.config();
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
-  entities: [__dirname + '/../**/*.entity.{js,ts}'],
+  entities: [__dirname + '/../**/*.entities.{js,ts}'],
   synchronize: false,
   ssl:
     process.env.NODE_ENV === 'production'
