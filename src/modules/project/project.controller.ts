@@ -25,25 +25,25 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectService.create(createProjectDto);
   }
 
   @Get()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async findAll() {
     return this.projectService.findAll();
   }
 
   @Get(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async findOne(@Param('id') id: number) {
     return this.projectService.findOne(id);
   }
 
   @Put(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async update(
     @Param('id') id: number,
     @Body() updateProjectDto: UpdateProjectDto,
@@ -52,31 +52,31 @@ export class ProjectController {
   }
 
   @Patch(':id/visible')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async visible(@Param('id') id: number) {
     return this.projectService.visible(id);
   }
 
   @Patch(':id/cache')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async cache(@Param('id') id: number) {
     return this.projectService.cache(id);
   }
 
   @Patch(':id/complete')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async complete(@Param('id') id: number) {
     return this.projectService.complete(id);
   }
 
   @Patch(':id/archive')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async archive(@Param('id') id: number) {
     return this.projectService.archive(id);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('Utilisateur', 'Adiministrateur')
   async remove(@Param('id') id: number) {
     return this.projectService.remove(id);
   }

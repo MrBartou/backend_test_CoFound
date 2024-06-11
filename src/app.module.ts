@@ -3,8 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { mailConfig } from './config/mail.config';
 
 import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
@@ -24,9 +22,9 @@ import { jwtConfig } from './config/jwt.config';
 
 @Module({
   imports: [
-    MailerModule.forRoot(mailConfig),
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '../.env',
     }),
     TypeOrmModule.forRoot(databaseConfig),
     ElasticsearchModule.register(elasticsearchConfig),
