@@ -1,10 +1,22 @@
 import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { mailConfig } from '../../config/mail.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getMailConfig } from '../../config/mail.config';
 import { MailService } from './mail.service';
 
 @Module({
-  imports: [MailerModule.forRoot(mailConfig)],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '../.env',
+    }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) =>
+        await getMailConfig(configService),
+      inject: [ConfigService],
+    }),
+  ],
   providers: [MailService],
   exports: [MailService],
 })

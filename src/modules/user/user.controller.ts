@@ -23,37 +23,37 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @Roles('admin')
+  @Roles('Administrateur')
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get(':id')
-  @Roles('admin', 'user')
+  @Roles('Administrateur', 'Utilisateur')
   async findOne(@Param('id') id: number) {
     return this.userService.findById(id);
   }
 
   @Put(':id')
-  @Roles('admin', 'user')
+  @Roles('Administrateur', 'Utilisateur')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
   @Patch(':id/activate')
-  @Roles('admin')
+  @Roles('Administrateur')
   async confirmEmail(@Param('id') id: number) {
     return this.userService.activate(id);
   }
 
   @Patch(':id/desactivate')
-  @Roles('admin')
+  @Roles('Administrateur')
   async deactivate(@Param('id') id: number) {
     return this.userService.deactivate(id);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('Administrateur')
   async remove(@Param('id') id: number) {
     return this.userService.remove(id);
   }

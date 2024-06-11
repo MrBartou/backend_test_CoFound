@@ -24,25 +24,25 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Post()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async create(@Body() createReviewDto: CreateReviewDto) {
     return this.reviewService.create(createReviewDto);
   }
 
   @Get()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findAll() {
     return this.reviewService.findAll();
   }
 
   @Get(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findOne(@Param('id') id: number) {
     return this.reviewService.findOne(id);
   }
 
   @Put(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async update(
     @Param('id') id: number,
     @Body() updateReviewDto: UpdateReviewDto,
@@ -51,7 +51,7 @@ export class ReviewController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('Administateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
     return this.reviewService.remove(id);
   }
