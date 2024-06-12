@@ -16,6 +16,8 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
+import { CreatorGuard } from 'src/common/guards/creator.guard';
+import { EntityType } from 'src/common/decorators/entity-type.decorator';
 
 @Controller('conversations')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -24,25 +26,27 @@ export class ConversationController {
   constructor(private readonly conversationService: ConversationService) {}
 
   @Post()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async create(@Body() createConversationDto: CreateConversationDto) {
     return this.conversationService.create(createConversationDto);
   }
 
   @Get()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findAll() {
     return this.conversationService.findAll();
   }
 
   @Get(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findOne(@Param('id') id: number) {
     return this.conversationService.findOne(id);
   }
 
   @Put(':id')
-  @Roles('user', 'admin')
+  @UseGuards(CreatorGuard)
+  @EntityType('Conversation')
+  @Roles('Utilisateur', 'Administateur')
   async update(
     @Param('id') id: number,
     @Body() updateConversationDto: UpdateConversationDto,
@@ -51,7 +55,9 @@ export class ConversationController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @UseGuards(CreatorGuard)
+  @EntityType('Conversation')
+  @Roles('Administateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
     return this.conversationService.remove(id);
   }
