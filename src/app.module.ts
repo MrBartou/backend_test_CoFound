@@ -20,12 +20,16 @@ import { databaseConfig } from './config/database.config';
 import { elasticsearchConfig } from './config/elasticsearch.config';
 import { jwtConfig } from './config/jwt.config';
 
+import { Project } from './modules/project/entities/project.entities';
+import { User } from './modules/user/entities/user.entities';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '../.env',
     }),
+    TypeOrmModule.forFeature([Project, User]),
     TypeOrmModule.forRoot(databaseConfig),
     ElasticsearchModule.register(elasticsearchConfig),
     JwtModule.register(jwtConfig),

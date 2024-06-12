@@ -5,10 +5,11 @@ import { ConversationService } from './conversation.service';
 import { ConversationController } from './conversation.controller';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../role/role.module';
+import { EntityService } from 'src/common/services/entity.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Conversation]), UserModule, RoleModule],
-  providers: [ConversationService],
+  providers: [ConversationService, EntityService],
   controllers: [ConversationController],
   exports: [ConversationService],
 })

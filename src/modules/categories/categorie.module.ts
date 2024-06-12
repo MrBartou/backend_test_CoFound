@@ -5,10 +5,11 @@ import { CategorieService } from './categorie.service';
 import { CategorieController } from './categorie.controller';
 import { RoleModule } from '../role/role.module';
 import { UserModule } from '../user/user.module';
+import { EntityService } from 'src/common/services/entity.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Categorie]), RoleModule, UserModule],
-  providers: [CategorieService],
+  providers: [CategorieService, EntityService],
   controllers: [CategorieController],
   exports: [CategorieService],
 })

@@ -16,6 +16,8 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
+import { CreatorGuard } from 'src/common/guards/creator.guard';
+import { EntityType } from 'src/common/decorators/entity-type.decorator';
 
 @Controller('reviews')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -42,6 +44,8 @@ export class ReviewController {
   }
 
   @Put(':id')
+  @UseGuards(CreatorGuard)
+  @EntityType('Review')
   @Roles('Utilisateur', 'Administateur')
   async update(
     @Param('id') id: number,
@@ -51,6 +55,8 @@ export class ReviewController {
   }
 
   @Delete(':id')
+  @UseGuards(CreatorGuard)
+  @EntityType('Review')
   @Roles('Administateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
     return this.reviewService.remove(id);
