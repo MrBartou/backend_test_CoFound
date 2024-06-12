@@ -6,6 +6,7 @@ import { ReviewController } from './review.controller';
 import { CategorieModule } from '../categories/categorie.module';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../role/role.module';
+import { EntityService } from 'src/common/services/entity.service';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { RoleModule } from '../role/role.module';
     UserModule,
     RoleModule,
   ],
-  providers: [ReviewService],
+  providers: [ReviewService, EntityService],
   controllers: [ReviewController],
   exports: [ReviewService],
 })
