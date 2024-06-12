@@ -21,25 +21,25 @@ export class CategorieController {
   constructor(private readonly categoryService: CategorieService) {}
 
   @Post()
-  @Roles('admin')
+  @Roles('Administateur', 'Utilisateur')
   async create(@Body() createCategorieDto: CreateCategorieDto) {
     return this.categoryService.create(createCategorieDto);
   }
 
   @Get()
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findAll() {
     return this.categoryService.findAll();
   }
 
   @Get(':id')
-  @Roles('user', 'admin')
+  @Roles('Utilisateur', 'Administateur')
   async findOne(@Param('id') id: number) {
     return this.categoryService.findOne(id);
   }
 
   @Put(':id')
-  @Roles('admin')
+  @Roles('Administateur')
   async update(
     @Param('id') id: number,
     @Body() updateCategorieDto: UpdateCategorieDto,
@@ -48,7 +48,7 @@ export class CategorieController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('Administateur')
   async remove(@Param('id') id: number) {
     return this.categoryService.remove(id);
   }
