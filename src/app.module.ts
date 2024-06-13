@@ -7,9 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ProjectModule } from './modules/project/project.module';
-// import { MessageModule } from './modules/message/message.module';
+import { MessageModule } from './modules/message/message.module';
 import { ReviewModule } from './modules/review/review.module';
-// import { SearchModule } from './modules/search/search.module';
+import { SearchModule } from './modules/search/search.module';
 import { ConversationModule } from './modules/conversation/conversation.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
@@ -39,9 +39,9 @@ import { User } from './modules/user/entities/user.entities';
     CategorieModule,
     ProjectModule,
     ConversationModule,
-    // MessageModule,
+    MessageModule,
     ReviewModule,
-    // SearchModule,
+    SearchModule,
     AuthModule,
     MailModule,
   ],
