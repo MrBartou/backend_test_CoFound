@@ -19,6 +19,7 @@ services:
       - SMTP_PORT=1025
       - SMTP_USER=
       - SMTP_PASSWORD=
+      - PORT=3000
     depends_on:
       - db
       - elasticsearch
@@ -37,6 +38,7 @@ services:
     networks:
       - cofound-network
     volumes:
+      - ./dump/dump_11_06_2024.sql:/docker-entrypoint-initdb.d/dump.sql:ro
       - db_data:/var/lib/postgresql/data
 
   elasticsearch:

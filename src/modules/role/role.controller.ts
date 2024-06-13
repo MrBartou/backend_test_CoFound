@@ -15,30 +15,31 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
   @Post()
+  @Roles('Administateur')
   create(@Body() createRoleDto: any) {
     return this.roleService.create(createRoleDto);
   }
 
   @Get()
-  @Roles('admin')
+  @Roles('Administateur')
   findAll() {
     return this.roleService.findAll();
   }
 
   @Get(':id')
-  @Roles('admin', 'user')
+  @Roles('Administateur', 'Utilisateur')
   findOne(@Param('id') id: string) {
     return this.roleService.findOne(+id);
   }
 
   @Patch(':id')
-  @Roles('admin')
+  @Roles('Administateur')
   update(@Param('id') id: string, @Body() updateRoleDto: any) {
     return this.roleService.update(+id, updateRoleDto);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('Administateur')
   remove(@Param('id') id: string) {
     return this.roleService.remove(+id);
   }

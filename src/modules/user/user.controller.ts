@@ -11,11 +11,13 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { CreatorGuard } from 'src/common/guards/creator.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { EntityType } from 'src/common/decorators/entity-type.decorator';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,38 +25,47 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @Roles('admin')
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get(':id')
-  @Roles('admin', 'user')
+  @Roles('Administrateur', 'Utilisateur')
   async findOne(@Param('id') id: number) {
     return this.userService.findById(id);
   }
 
   @Put(':id')
-  @Roles('admin', 'user')
+  @UseGuards(CreatorGuard)
+  @EntityType('User')
+  @Roles('Administrateur', 'Utilisateur')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
   @Patch(':id/activate')
-  @Roles('admin')
+  @Roles('Administrateur')
   async confirmEmail(@Param('id') id: number) {
     return this.userService.activate(id);
   }
 
-  @Patch(':id/desactivate')
-  @Roles('admin')
+  @Patch(':id/deactivate')
+  @Roles('Administrateur')
   async deactivate(@Param('id') id: number) {
     return this.userService.deactivate(id);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @UseGuards(CreatorGuard)
+  @EntityType('User')
+  @Roles('Administrateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
     return this.userService.remove(id);
+  }
+
+  @Put('role/:id')
+  // @Roles('Administrateur')
+  async updateRole(@Param('id') id: number, @Body('roleId') roleId: number) {
+    return this.userService.updateRole(id, roleId);
   }
 }

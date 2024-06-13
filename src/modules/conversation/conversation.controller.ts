@@ -9,9 +9,9 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { ReviewService } from './review.service';
-import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
+import { ConversationService } from './conversation.service';
+import { CreateConversationDto } from './dto/create-conversation.dto';
+import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -19,46 +19,46 @@ import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { CreatorGuard } from 'src/common/guards/creator.guard';
 import { EntityType } from 'src/common/decorators/entity-type.decorator';
 
-@Controller('reviews')
+@Controller('conversations')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @UsePipes(new ValidationPipe())
-export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+export class ConversationController {
+  constructor(private readonly conversationService: ConversationService) {}
 
   @Post()
   @Roles('Utilisateur', 'Administateur')
-  async create(@Body() createReviewDto: CreateReviewDto) {
-    return this.reviewService.create(createReviewDto);
+  async create(@Body() createConversationDto: CreateConversationDto) {
+    return this.conversationService.create(createConversationDto);
   }
 
   @Get()
   @Roles('Utilisateur', 'Administateur')
   async findAll() {
-    return this.reviewService.findAll();
+    return this.conversationService.findAll();
   }
 
   @Get(':id')
   @Roles('Utilisateur', 'Administateur')
   async findOne(@Param('id') id: number) {
-    return this.reviewService.findOne(id);
+    return this.conversationService.findOne(id);
   }
 
   @Put(':id')
   @UseGuards(CreatorGuard)
-  @EntityType('Review')
+  @EntityType('Conversation')
   @Roles('Utilisateur', 'Administateur')
   async update(
     @Param('id') id: number,
-    @Body() updateReviewDto: UpdateReviewDto,
+    @Body() updateConversationDto: UpdateConversationDto,
   ) {
-    return this.reviewService.update(id, updateReviewDto);
+    return this.conversationService.update(id, updateConversationDto);
   }
 
   @Delete(':id')
   @UseGuards(CreatorGuard)
-  @EntityType('Review')
+  @EntityType('Conversation')
   @Roles('Administateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
-    return this.reviewService.remove(id);
+    return this.conversationService.remove(id);
   }
 }
