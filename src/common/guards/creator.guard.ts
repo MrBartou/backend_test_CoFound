@@ -27,10 +27,15 @@ export class CreatorGuard implements CanActivate {
       throw new ForbiddenException('Entity type not specified');
     }
 
+    if (user.roles && user.roles.includes('Administateur')) {
+      return true;
+    }
+
     const repository = this.entityService.getRepository(entityType);
     const entity = await repository.findOne({
       where: { [entityType === 'User' ? 'userId' : 'id']: entityId },
     });
+
     if (!entity) {
       throw new ForbiddenException(`${entityType} not found`);
     }
