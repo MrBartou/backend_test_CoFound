@@ -62,4 +62,10 @@ export class UserController {
   async remove(@Param('id') id: number) {
     return this.userService.remove(id);
   }
+
+  @Put('role/:id')
+  // @Roles('Administrateur')
+  async updateRole(@Param('id') id: number, @Body('roleId') roleId: number) {
+    return this.userService.updateRole(id, roleId);
+  }
 }
