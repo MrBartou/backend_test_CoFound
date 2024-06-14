@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projets Recommandés</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .email-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .project-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .project-item {
+            margin-bottom: 10px;
+        }
+        .project-link {
+            display: block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .project-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Découvrez des projets qui pourraient vous intéresser !</h1>
+        </div>
+        <div class="email-content">
+            <p>Bonjour {{name}},</p>
+            <p>Voici une sélection de projets que nous pensons pouvoir vous intéresser :</p>
+            <div class="project-list">
+                {{#each projects}}
+                <div class="project-item">
+                    <h3>{{title}}</h3>
+                    <a href="http://{{../base_url}}/projects/{{id}}" class="project-link">Voir le Projet</a>
+                </div>
+                {{/each}}
+            </div>
+            {{#unless projects.length}}
+                <p>Aucun projet ne correspond à vos critères pour le moment. Restez à l'écoute pour de nouvelles mises à jour.</p>
+            {{/unless}}
+        </div>
+    </div>
+</body>
+</html>

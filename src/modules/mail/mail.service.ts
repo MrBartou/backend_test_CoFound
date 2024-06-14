@@ -10,7 +10,8 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Welcome to our app! Confirm your Email',
+      subject:
+        'Bienvenue sur notre plateforme ! Confirmez votre adresse email.',
       template: './confirmation',
       context: {
         name: user.name,
@@ -24,11 +25,95 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Password Reset Request',
+      subject: 'Réinitialisation de votre mot de passe',
       template: './reset-password',
       context: {
         name: user.name,
         url,
+      },
+    });
+  }
+
+  async projectCreated(user: any, project: any) {
+    const url = `http://${process.env.BASE_URL}/projects/${project.id}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: "Votre projet vient d'être publié !",
+      template: './project-created',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+        url,
+      },
+    });
+  }
+
+  async projectDesactivated(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre projet a été désactivé',
+      template: './project-desactivated',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
+  async newMessage(user: any, message: any) {
+    const url = `http://${process.env.BASE_URL}/messages/${message.id}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Vous avez reçu un nouveau message !',
+      template: './new-message',
+      context: {
+        name: user.name,
+        messageText: message.text,
+        url,
+      },
+    });
+  }
+
+  async interestProject(user, projects) {
+    const context = {
+      name: user.name,
+      projects: projects.map((project) => ({
+        title: project.title,
+        id: project.id,
+      })),
+      base_url: process.env.BASE_URL,
+    };
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Les projets qui pourraient vous intéresser',
+      template: './interest-project',
+      context: context,
+    });
+  }
+
+  async desactivateAccount(user: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre compte a été désactivé',
+      template: './desactivate-account',
+      context: {
+        name: user.name,
+      },
+    });
+  }
+
+  async supportRequest(user: any, message: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre demande de support a bien été reçue',
+      template: './support-request',
+      context: {
+        name: user.name,
+        email: user.email,
+        message: message.text,
       },
     });
   }
