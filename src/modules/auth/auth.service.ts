@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -29,12 +30,26 @@ export class AuthService {
   async login(loginUserDto: LoginUserDto): Promise<{ accessToken: string }> {
     const user = await this.userService.findByEmail(loginUserDto.email);
 
-    if (
-      !user ||
-      !(await bcrypt.compare(loginUserDto.password, user.passwordHash))
-    ) {
+    if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    if (user.lockUntil && user.lockUntil > new Date()) {
+      throw new ForbiddenException('Account is temporarily locked');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      loginUserDto.password,
+      user.passwordHash,
+    );
+    if (!isPasswordValid) {
+      await this.handleFailedLogin(user);
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    user.loginAttempts = 0;
+    user.lockUntil = null;
+    await this.userService.update(user.userId, user);
 
     const payload = { email: user.email, sub: user.userId };
     return { accessToken: this.jwtService.sign(payload) };
@@ -67,5 +82,14 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException('Invalid token');
     }
+  }
+
+  private async handleFailedLogin(user: any): Promise<void> {
+    user.loginAttempts += 1;
+    if (user.loginAttempts >= 5) {
+      const lockTime = 30 * 60 * 1000;
+      user.lockUntil = new Date(Date.now() + lockTime);
+    }
+    await this.userService.update(user.userId, user);
   }
 }

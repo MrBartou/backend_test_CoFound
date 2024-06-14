@@ -35,4 +35,10 @@ export class User {
 
   @Column({ default: false })
   isActive: boolean;
+
+  @Column({ default: 0 })
+  loginAttempts: number;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lockUntil: Date;
 }
