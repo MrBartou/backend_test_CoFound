@@ -10,7 +10,8 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Welcome to our app! Confirm your Email',
+      subject:
+        'Bienvenue sur notre plateforme ! Confirmez votre adresse email.',
       template: './confirmation',
       context: {
         name: user.name,
@@ -24,10 +25,25 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Password Reset Request',
+      subject: 'Réinitialisation de votre mot de passe',
       template: './reset-password',
       context: {
         name: user.name,
+        url,
+      },
+    });
+  }
+
+  async projectCreated(user: any, project: any) {
+    const url = `http://${process.env.BASE_URL}/projects/${project.id}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: "Votre projet vient d'être publié !",
+      template: './project-created',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
         url,
       },
     });
