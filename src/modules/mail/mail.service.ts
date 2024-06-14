@@ -75,4 +75,22 @@ export class MailService {
       },
     });
   }
+
+  async interestProject(user, projects) {
+    const context = {
+      name: user.name,
+      projects: projects.map((project) => ({
+        title: project.title,
+        id: project.id,
+      })),
+      base_url: process.env.BASE_URL,
+    };
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Les projets qui pourraient vous intéresser',
+      template: './interest-project',
+      context: context,
+    });
+  }
 }
