@@ -60,4 +60,19 @@ export class MailService {
       },
     });
   }
+
+  async newMessage(user: any, message: any) {
+    const url = `http://${process.env.BASE_URL}/messages/${message.id}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Vous avez reçu un nouveau message !',
+      template: './new-message',
+      context: {
+        name: user.name,
+        messageText: message.text,
+        url,
+      },
+    });
+  }
 }
