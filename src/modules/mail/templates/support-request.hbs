@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de Support Confirmée</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .email-content {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Confirmation de votre demande de support</h1>
+        </div>
+        <div class="email-content">
+            <p>Bonjour {{name}},</p>
+            <p>Nous avons bien reçu votre demande de support et nous vous remercions de nous avoir contactés. Voici le résumé de votre demande :</p>
+            <blockquote>{{message}}</blockquote>
+            <p>Notre équipe va traiter votre demande et vous répondra aussi rapidement que possible à l'adresse suivante : <strong>{{email}}</strong>.</p>
+            <p>Merci de votre patience.</p>
+        </div>
+    </div>
+</body>
+</html>

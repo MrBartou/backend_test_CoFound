@@ -104,4 +104,17 @@ export class MailService {
       },
     });
   }
+
+  async supportRequest(user: any, message: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre demande de support a bien été reçue',
+      template: './support-request',
+      context: {
+        name: user.name,
+        email: user.email,
+        message: message.text,
+      },
+    });
+  }
 }
