@@ -93,4 +93,15 @@ export class MailService {
       context: context,
     });
   }
+
+  async desactivateAccount(user: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre compte a été désactivé',
+      template: './desactivate-account',
+      context: {
+        name: user.name,
+      },
+    });
+  }
 }
