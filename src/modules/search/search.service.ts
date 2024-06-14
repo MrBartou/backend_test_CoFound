@@ -5,6 +5,7 @@ import { User } from '../user/entities/user.entities';
 import { Profile } from '../profile/entities/profile.entities';
 import { Project } from '../project/entities/project.entities';
 import { Message } from '../message/entities/message.entities';
+import { Conversation } from '../conversation/entities/conversation.entities';
 
 @Injectable()
 export class SearchService {
@@ -17,6 +18,8 @@ export class SearchService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
+    @InjectRepository(Conversation)
+    private readonly conversationRepository: Repository<Conversation>,
   ) {}
 
   async searchUsers(query: string): Promise<User[]> {
@@ -45,5 +48,12 @@ export class SearchService {
       where: { messageText: ILike(`%${query}%`) },
     });
     return messages;
+  }
+
+  async searchConversation(query: string): Promise<Conversation[]> {
+    const conversations = await this.conversationRepository.find({
+      where: { participants: ILike(`%${query}%`) },
+    });
+    return conversations;
   }
 }
