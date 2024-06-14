@@ -48,4 +48,16 @@ export class MailService {
       },
     });
   }
+
+  async projectDesactivated(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre projet a été désactivé',
+      template: './project-desactivated',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
 }
