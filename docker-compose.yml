@@ -1,4 +1,3 @@
-# docker-compose.yml
 version: '3.1'
 
 services:
@@ -6,24 +5,13 @@ services:
     build: .
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
-      - DATABASE_USER=cofound
-      - DATABASE_PASSWORD=cofound
-      - DATABASE_NAME=cofound
-      - ELASTICSEARCH_HOST=elasticsearch
-      - ELASTICSEARCH_PORT=9200
-      - SMTP_HOST=mailhog
-      - SMTP_PORT=1025
-      - SMTP_USER=
-      - SMTP_PASSWORD=
-      - PORT=3000
+    env_file:
+      - .env
     depends_on:
-      - db
-      - elasticsearch
-      - mailhog
+      db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     networks:
       - cofound-network
 
@@ -40,6 +28,11 @@ services:
     volumes:
       - ./dump/dump_11_06_2024.sql:/docker-entrypoint-initdb.d/dump.sql:ro
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cofound"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
@@ -49,6 +42,11 @@ services:
       - "9200:9200"
     networks:
       - cofound-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   mailhog:
     image: mailhog/mailhog
@@ -66,7 +64,8 @@ services:
     ports:
       - '5050:80'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - cofound-network
 
