@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly userService: UserService,
+  ) {}
 
   async sendUserConfirmation(user: any, token: string) {
     const url = `http://${process.env.BASE_URL}/auth/confirm-email?token=${token}`;
@@ -116,5 +120,38 @@ export class MailService {
         message: message.text,
       },
     });
+  }
+
+  async sendNewFeaturesNotification(
+    features: string[],
+    changelogUrl: string,
+    isPrerelease: boolean,
+  ) {
+    const users = await this.getUsersToNotify();
+
+    const subject = `Nouvelles ${isPrerelease ? 'Pré-' : ''}Fonctionnalités Disponibles`;
+
+    users.forEach((user) => {
+      const mailOptions = {
+        from: 'your-email@example.com',
+        to: user.email,
+        subject: subject,
+        template: './new-feature',
+        context: {
+          name: user.username,
+          features: features,
+          changelogUrl: changelogUrl,
+        },
+      };
+
+      this.mailerService
+        .sendMail(mailOptions)
+        .then((info) => console.log('Message sent: %s', info.messageId))
+        .catch((error) => console.log(error));
+    });
+  }
+
+  private async getUsersToNotify() {
+    return await this.userService.findAll();
   }
 }

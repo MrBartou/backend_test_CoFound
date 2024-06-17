@@ -23,6 +23,8 @@ import { jwtConfig } from './config/jwt.config';
 import { Project } from './modules/project/entities/project.entities';
 import { User } from './modules/user/entities/user.entities';
 
+import { GitHubWebhookController } from './modules/mail/feature-mail.controller';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -45,5 +47,6 @@ import { User } from './modules/user/entities/user.entities';
     AuthModule,
     MailModule,
   ],
+  controllers: [GitHubWebhookController],
 })
 export class AppModule {}
