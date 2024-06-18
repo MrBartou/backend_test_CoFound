@@ -12,6 +12,45 @@ export class CategorieService {
     private readonly categoryRepository: Repository<Categorie>,
   ) {}
 
+  async createDefaultCategories(): Promise<void> {
+    const categories = await this.categoryRepository.find();
+    if (categories.length === 0) {
+      const defaultCategories = [
+        {
+          name: 'Informatique',
+          description: 'Projets informatiques',
+          type: 'Informatique',
+        },
+        {
+          name: 'Design',
+          description: 'Projets de design',
+          type: 'Design',
+        },
+        {
+          name: 'Musique',
+          description: 'Projets musicaux',
+          type: 'Musique',
+        },
+        {
+          name: 'Vidéo',
+          description: 'Projets vidéos',
+          type: 'Vidéo',
+        },
+        {
+          name: 'Photographie',
+          description: 'Projets photographiques',
+          type: 'Photographie',
+        },
+        {
+          name: 'Art',
+          description: 'Projets artistiques',
+          type: 'Art',
+        },
+      ];
+      await this.categoryRepository.save(defaultCategories);
+    }
+  }
+
   async create(createCategoryDto: CreateCategorieDto): Promise<Categorie> {
     const category = this.categoryRepository.create(createCategoryDto);
     return this.categoryRepository.save(category);

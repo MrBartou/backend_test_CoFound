@@ -24,6 +24,7 @@ import { Project } from './modules/project/entities/project.entities';
 import { User } from './modules/user/entities/user.entities';
 
 import { GitHubWebhookController } from './modules/mail/feature-mail.controller';
+import { StartupModule } from './utils/startup/startup.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { GitHubWebhookController } from './modules/mail/feature-mail.controller'
     SearchModule,
     AuthModule,
     MailModule,
+    StartupModule,
   ],
   controllers: [GitHubWebhookController],
 })
