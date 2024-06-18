@@ -56,4 +56,8 @@ export class ProjectService {
   async remove(id: number): Promise<void> {
     await this.projectRepository.delete(id);
   }
+
+  async findUserProjects(userId: number): Promise<Project[]> {
+    return this.projectRepository.find({ where: { owner: { userId } } });
+  }
 }
