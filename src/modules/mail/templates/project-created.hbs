@@ -9,7 +9,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #FFF1F2;
             color: #333;
         }
         .email-container {
@@ -21,28 +21,64 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .email-header {
-            background-color: #28a745;
+            background-color: #FF6696;
             color: white;
             padding: 20px;
             text-align: center;
             border-radius: 8px 8px 0 0;
         }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
         .email-content {
             padding: 20px;
             text-align: center;
         }
+        .email-content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 20px 0;
+        }
         .project-link {
             display: inline-block;
-            background-color: #007BFF;
+            background-color: #FF0066;
             color: white;
             padding: 12px 25px;
             margin-top: 20px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         .project-link:hover {
-            background-color: #0056b3;
+            background-color: #CC0052;
+        }
+        .email-signature {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+        }
+        .email-signature p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #CC0052;
+            color: #FFF1F2;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #FFF1F2;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -59,6 +95,15 @@
             {{else}}
                 <p>Le lien vers le projet n'est pas disponible pour le moment. Veuillez vérifier plus tard ou contacter le support.</p>
             {{/if}}
+        </div>
+        <div class="email-signature">
+            <p>Merci,</p>
+            <p>L'équipe CoFound</p>
+            <p><i>Note : Cet email est envoyé d'une adresse no-reply, veuillez ne pas répondre directement à cet email.</i></p>
+        </div>
+        <div class="footer">
+            <p>Vous avez reçu cet email car vous vous êtes inscrit sur notre site. Si ce n'est pas le cas, veuillez ignorer cet email.</p>
+            <p><a href="#">Se désabonner</a> | <a href="#">Politique de confidentialité</a></p>
         </div>
     </div>
 </body>
