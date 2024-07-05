@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entities';
+import { Categorie } from '../../categories/entities/categorie.entities';
 
 @Entity()
 export class Project {
@@ -18,11 +26,13 @@ export class Project {
   @Column({ type: 'varchar', length: 50, nullable: true })
   status: string;
 
-  @Column({ type: 'json', nullable: true })
-  participants: Record<string, any>;
+  @ManyToMany(() => User)
+  @JoinTable()
+  participants: User[];
 
-  @Column({ type: 'json', nullable: true })
-  categories: Record<string, any>;
+  @ManyToMany(() => Categorie, (category) => category.projects)
+  @JoinTable()
+  categories: Categorie[];
 
   @Column({ type: 'json', nullable: true })
   requiredSkills: Record<string, any>;

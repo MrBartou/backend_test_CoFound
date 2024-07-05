@@ -100,4 +100,10 @@ export class ProjectController {
   async findUserProjects(@Param('id') id: number) {
     return this.projectService.findUserProjects(id);
   }
+
+  @Get('/categories/:id')
+  @Roles('Utilisateur', 'Administrateur')
+  async findCategoryProjects(@Param('id') id: number) {
+    return this.projectService.findCategoryProjects(id);
+  }
 }
