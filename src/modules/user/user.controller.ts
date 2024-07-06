@@ -64,7 +64,7 @@ export class UserController {
   }
 
   @Put('role/:id')
-  // @Roles('Administrateur')
+  @Roles('Administrateur')
   async updateRole(@Param('id') id: number, @Body('roleId') roleId: number) {
     return this.userService.updateRole(id, roleId);
   }

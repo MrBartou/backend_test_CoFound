@@ -30,4 +30,9 @@ export class SearchController {
   async searchMessages(@Query() searchDto: SearchDto) {
     return this.searchService.searchMessages(searchDto.query);
   }
+
+  @Get('conversation')
+  async searchConversation(@Query() searchDto: SearchDto) {
+    return this.searchService.searchConversation(searchDto.query);
+  }
 }

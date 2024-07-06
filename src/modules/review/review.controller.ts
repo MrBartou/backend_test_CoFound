@@ -61,4 +61,10 @@ export class ReviewController {
   async remove(@Param('id') id: number) {
     return this.reviewService.remove(id);
   }
+
+  @Get('/users/:id')
+  @Roles('Utilisateur', 'Administateur')
+  async findByUser(@Param('id') id: number) {
+    return this.reviewService.findByUser(id);
+  }
 }

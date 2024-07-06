@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de réinitialisation de mot de passe</title>
+    <title>Projets Recommandés</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -40,18 +40,31 @@
             line-height: 1.5;
             margin: 20px 0;
         }
-        .reset-link {
-            display: inline-block;
+        .project-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .project-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+        }
+        .project-item h3 {
+            margin: 0 0 10px;
+        }
+        .project-link {
+            display: block;
             background-color: #FF0066;
             color: white;
-            padding: 12px 25px;
-            margin-top: 20px;
+            padding: 10px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            text-align: center;
             transition: background-color 0.3s ease;
         }
-        .reset-link:hover {
+        .project-link:hover {
             background-color: #CC0052;
         }
         .email-signature {
@@ -85,15 +98,22 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>Bonjour {{name}},</h1>
+            <h1>Découvrez des projets qui pourraient vous intéresser !</h1>
         </div>
         <div class="email-content">
-            <p>Vous avez demandé une réinitialisation de votre mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
-            {{#if url}}
-                <a href="{{url}}" class="reset-link">Réinitialiser le mot de passe</a>
-            {{else}}
-                <p>Le lien de réinitialisation du mot de passe n'est pas disponible pour le moment. Veuillez contacter le support.</p>
-            {{/if}}
+            <p>Bonjour {{name}},</p>
+            <p>Voici une sélection de projets que nous pensons pouvoir vous intéresser :</p>
+            <div class="project-list">
+                {{#each projects}}
+                <div class="project-item">
+                    <h3>{{title}}</h3>
+                    <a href="http://{{../base_url}}/projects/{{id}}" class="project-link">Voir le Projet</a>
+                </div>
+                {{/each}}
+            </div>
+            {{#unless projects.length}}
+                <p>Aucun projet ne correspond à vos critères pour le moment. Restez à l'écoute pour de nouvelles mises à jour.</p>
+            {{/unless}}
         </div>
         <div class="email-signature">
             <p>Merci,</p>

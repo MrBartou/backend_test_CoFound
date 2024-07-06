@@ -89,4 +89,8 @@ export class UserService {
     user.role = role;
     return this.userRepository.save(user);
   }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
 }

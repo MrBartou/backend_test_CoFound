@@ -10,6 +10,23 @@ export class RoleService {
     private readonly roleRepository: Repository<Role>,
   ) {}
 
+  async createDefaultRoles(): Promise<void> {
+    const roles = await this.roleRepository.find();
+    if (roles.length === 0) {
+      const defaultRoles = [
+        {
+          name: 'Administrateur',
+          description: "role d'administration du site",
+        },
+        {
+          name: 'Utilisateur',
+          description: 'Role par défault du site',
+        },
+      ];
+      await this.roleRepository.save(defaultRoles);
+    }
+  }
+
   async create(createRoleDto: any): Promise<Role> {
     return this.roleRepository.save(createRoleDto);
   }

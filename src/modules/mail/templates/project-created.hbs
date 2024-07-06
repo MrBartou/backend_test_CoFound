@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de réinitialisation de mot de passe</title>
+    <title>Votre projet vient d'être publié !</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -40,7 +40,7 @@
             line-height: 1.5;
             margin: 20px 0;
         }
-        .reset-link {
+        .project-link {
             display: inline-block;
             background-color: #FF0066;
             color: white;
@@ -51,7 +51,7 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
-        .reset-link:hover {
+        .project-link:hover {
             background-color: #CC0052;
         }
         .email-signature {
@@ -85,14 +85,15 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>Bonjour {{name}},</h1>
+            <h1>Votre projet '{{projectTitle}}' vient d'être publié !</h1>
         </div>
         <div class="email-content">
-            <p>Vous avez demandé une réinitialisation de votre mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
+            <p>Bonjour {{name}},</p>
+            <p>Nous sommes heureux de vous informer que votre projet '{{projectTitle}}' est maintenant disponible en ligne. Cliquez sur le lien ci-dessous pour le voir :</p>
             {{#if url}}
-                <a href="{{url}}" class="reset-link">Réinitialiser le mot de passe</a>
+                <a href="{{url}}" class="project-link">Voir le Projet</a>
             {{else}}
-                <p>Le lien de réinitialisation du mot de passe n'est pas disponible pour le moment. Veuillez contacter le support.</p>
+                <p>Le lien vers le projet n'est pas disponible pour le moment. Veuillez vérifier plus tard ou contacter le support.</p>
             {{/if}}
         </div>
         <div class="email-signature">

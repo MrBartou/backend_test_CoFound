@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de réinitialisation de mot de passe</title>
+    <title>Demande de Support Confirmée</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -40,19 +40,12 @@
             line-height: 1.5;
             margin: 20px 0;
         }
-        .reset-link {
-            display: inline-block;
-            background-color: #FF0066;
-            color: white;
-            padding: 12px 25px;
-            margin-top: 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .reset-link:hover {
-            background-color: #CC0052;
+        .email-content blockquote {
+            background-color: #f9f9f9;
+            border-left: 10px solid #FF6696;
+            margin: 20px 0;
+            padding: 10px 20px;
+            font-style: italic;
         }
         .email-signature {
             margin-top: 20px;
@@ -85,15 +78,14 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>Bonjour {{name}},</h1>
+            <h1>Confirmation de votre demande de support</h1>
         </div>
         <div class="email-content">
-            <p>Vous avez demandé une réinitialisation de votre mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
-            {{#if url}}
-                <a href="{{url}}" class="reset-link">Réinitialiser le mot de passe</a>
-            {{else}}
-                <p>Le lien de réinitialisation du mot de passe n'est pas disponible pour le moment. Veuillez contacter le support.</p>
-            {{/if}}
+            <p>Bonjour {{name}},</p>
+            <p>Nous avons bien reçu votre demande de support et nous vous remercions de nous avoir contactés. Voici le résumé de votre demande :</p>
+            <blockquote>{{message}}</blockquote>
+            <p>Notre équipe va traiter votre demande et vous répondra aussi rapidement que possible à l'adresse suivante : <strong>{{email}}</strong>.</p>
+            <p>Merci de votre patience.</p>
         </div>
         <div class="email-signature">
             <p>Merci,</p>

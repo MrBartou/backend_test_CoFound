@@ -48,4 +48,11 @@ export class MessageService {
     message.readAt = new Date();
     await this.messageRepository.save(message);
   }
+
+  async getAllMessageByConversationId(id: number): Promise<Message[]> {
+    return this.messageRepository.find({
+      where: { conversation: { conversationId: id } },
+      relations: ['conversation', 'fromUser', 'toUser'],
+    });
+  }
 }
