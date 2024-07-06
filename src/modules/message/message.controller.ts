@@ -72,4 +72,10 @@ export class MessageController {
   async read(@Param('id') id: number) {
     return this.messageService.read(id);
   }
+
+  @Get('conversation/:id')
+  @Roles('Utilisateur', 'Administateur')
+  async getAllMessageByConversationId(@Param('id') id: number) {
+    return this.messageService.getAllMessageByConversationId(id);
+  }
 }
