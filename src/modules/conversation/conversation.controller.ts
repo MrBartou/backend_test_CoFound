@@ -26,19 +26,19 @@ export class ConversationController {
   constructor(private readonly conversationService: ConversationService) {}
 
   @Post()
-  @Roles('Utilisateur', 'Administateur')
+  @Roles('Utilisateur', 'Administrateur')
   async create(@Body() createConversationDto: CreateConversationDto) {
     return this.conversationService.create(createConversationDto);
   }
 
   @Get()
-  @Roles('Utilisateur', 'Administateur')
+  @Roles('Utilisateur', 'Administrateur')
   async findAll() {
     return this.conversationService.findAll();
   }
 
   @Get(':id')
-  @Roles('Utilisateur', 'Administateur')
+  @Roles('Utilisateur', 'Administrateur')
   async findOne(@Param('id') id: number) {
     return this.conversationService.findOne(id);
   }
@@ -46,7 +46,7 @@ export class ConversationController {
   @Put(':id')
   @UseGuards(CreatorGuard)
   @EntityType('Conversation')
-  @Roles('Utilisateur', 'Administateur')
+  @Roles('Utilisateur', 'Administrateur')
   async update(
     @Param('id') id: number,
     @Body() updateConversationDto: UpdateConversationDto,
@@ -57,8 +57,15 @@ export class ConversationController {
   @Delete(':id')
   @UseGuards(CreatorGuard)
   @EntityType('Conversation')
-  @Roles('Administateur', 'Utilisateur')
+  @Roles('Administrateur', 'Utilisateur')
   async remove(@Param('id') id: number) {
     return this.conversationService.remove(id);
+  }
+
+  @Get('participants/:id')
+  @EntityType('Conversation')
+  @Roles('Utilisateur', 'Administrateur')
+  async getConversationByParticipantsId(@Param('id') id: number) {
+    return this.conversationService.getConversationByParticipantsId(id);
   }
 }

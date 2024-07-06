@@ -45,4 +45,12 @@ export class ConversationService {
   async remove(id: number): Promise<void> {
     await this.conversationRepository.delete(id);
   }
+
+  async getConversationByParticipantsId(id: number): Promise<Conversation[]> {
+    return this.conversationRepository
+      .createQueryBuilder('conversation')
+      .leftJoin('conversation.participants', 'participants')
+      .where('participants.userId = :id', { id })
+      .getMany();
+  }
 }

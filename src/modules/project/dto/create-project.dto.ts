@@ -2,14 +2,20 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsJSON,
   IsBoolean,
+  IsArray,
+  IsInt,
+  IsObject,
 } from 'class-validator';
 
 export class CreateProjectDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+
+  @IsNotEmpty()
+  @IsInt()
+  owner: number;
 
   @IsOptional()
   @IsString()
@@ -19,24 +25,26 @@ export class CreateProjectDto {
   @IsString()
   status?: string;
 
+  @IsArray()
   @IsOptional()
-  @IsJSON()
-  participants?: Record<string, any>;
+  @IsInt({ each: true })
+  participants?: number[];
+
+  @IsArray()
+  @IsOptional()
+  @IsInt({ each: true })
+  categories?: number[];
 
   @IsOptional()
-  @IsJSON()
-  categories?: Record<string, any>;
-
-  @IsOptional()
-  @IsJSON()
+  @IsObject()
   requiredSkills?: Record<string, any>;
 
   @IsOptional()
-  @IsJSON()
+  @IsObject()
   budget?: Record<string, any>;
 
   @IsOptional()
-  @IsJSON()
+  @IsObject()
   timeline?: Record<string, any>;
 
   @IsOptional()

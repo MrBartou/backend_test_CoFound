@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Project } from 'src/modules/project/entities/project.entities';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Categorie {
@@ -23,4 +24,7 @@ export class Categorie {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @ManyToMany(() => Project, (project) => project.categories)
+  projects: Project[];
 }

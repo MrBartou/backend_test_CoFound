@@ -27,19 +27,19 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectService.create(createProjectDto);
   }
 
   @Get()
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async findAll() {
     return this.projectService.findAll();
   }
 
   @Get(':id')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async findOne(@Param('id') id: number) {
     return this.projectService.findOne(id);
   }
@@ -47,7 +47,7 @@ export class ProjectController {
   @Put(':id')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async update(
     @Param('id') id: number,
     @Body() updateProjectDto: UpdateProjectDto,
@@ -58,7 +58,7 @@ export class ProjectController {
   @Patch(':id/visible')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async visible(@Param('id') id: number) {
     return this.projectService.visible(id);
   }
@@ -66,7 +66,7 @@ export class ProjectController {
   @Patch(':id/cache')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async cache(@Param('id') id: number) {
     return this.projectService.cache(id);
   }
@@ -74,7 +74,7 @@ export class ProjectController {
   @Patch(':id/complete')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async complete(@Param('id') id: number) {
     return this.projectService.complete(id);
   }
@@ -82,7 +82,7 @@ export class ProjectController {
   @Patch(':id/archive')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async archive(@Param('id') id: number) {
     return this.projectService.archive(id);
   }
@@ -90,8 +90,20 @@ export class ProjectController {
   @Delete(':id')
   @UseGuards(CreatorGuard)
   @EntityType('Project')
-  @Roles('Utilisateur', 'Adiministrateur')
+  @Roles('Utilisateur', 'Administrateur')
   async remove(@Param('id') id: number) {
     return this.projectService.remove(id);
+  }
+
+  @Get('/users/:id')
+  @Roles('Utilisateur', 'Administrateur')
+  async findUserProjects(@Param('id') id: number) {
+    return this.projectService.findUserProjects(id);
+  }
+
+  @Get('/categories/:id')
+  @Roles('Utilisateur', 'Administrateur')
+  async findCategoryProjects(@Param('id') id: number) {
+    return this.projectService.findCategoryProjects(id);
   }
 }

@@ -36,4 +36,11 @@ export class ReviewService {
   async remove(id: number): Promise<void> {
     await this.reviewRepository.delete(id);
   }
+
+  async findByUser(userId: number): Promise<Review[]> {
+    return this.reviewRepository.find({
+      where: { reviewer: { userId } },
+      relations: ['reviewer', 'subject'],
+    });
+  }
 }
