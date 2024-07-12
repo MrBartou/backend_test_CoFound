@@ -22,7 +22,10 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto): Promise<void> {
     const user = await this.userService.create(createUserDto);
-    const token = this.jwtService.sign({ email: user.email });
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { expiresIn: '1h' },
+    );
 
     await this.mailService.sendUserConfirmation(user, token);
   }
@@ -52,7 +55,7 @@ export class AuthService {
     await this.userService.update(user.userId, user);
 
     const payload = { email: user.email, sub: user.userId };
-    return { accessToken: this.jwtService.sign(payload) };
+    return { accessToken: this.jwtService.sign(payload, { expiresIn: '1h' }) };
   }
 
   async validateUser(email: string): Promise<any> {
@@ -71,7 +74,10 @@ export class AuthService {
       throw new BadRequestException('Invalid email');
     }
 
-    const token = this.jwtService.sign({ email: user.email });
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { expiresIn: '1h' },
+    );
     await this.mailService.sendPasswordReset(user, token);
   }
 
