@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { Application } from '../../applications/entities/applications.entities';
 
 @Entity()
 export class User {
@@ -41,4 +43,7 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   lockUntil: Date;
+
+  @OneToMany(() => Application, (application) => application.user)
+  applications: Application[];
 }
