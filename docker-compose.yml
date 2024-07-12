@@ -14,6 +14,9 @@ services:
         condition: service_healthy
     networks:
       - cofound-network
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   db:
     image: postgres:13
@@ -38,15 +41,18 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
     environment:
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
     networks:
       - cofound-network
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -E '\"status\":\"(green|yellow)\"'"]
       interval: 30s
-      timeout: 10s
-      retries: 5
+      timeout: 30s
+      retries: 50
 
   mailhog:
     image: mailhog/mailhog
@@ -71,6 +77,7 @@ services:
 
 volumes:
   db_data:
+  esdata:
 
 networks:
   cofound-network:
