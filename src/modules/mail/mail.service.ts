@@ -151,6 +151,42 @@ export class MailService {
     });
   }
 
+  async confirmationApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a bien été envoyée',
+      template: './confirmation-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
+  async acceptApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a été acceptée',
+      template: './accept-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
+  async refuseApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a été refusée',
+      template: './refuse-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
   private async getUsersToNotify() {
     return await this.userService.findAll();
   }
