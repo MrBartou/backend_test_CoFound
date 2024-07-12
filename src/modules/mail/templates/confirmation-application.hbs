@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de Candidature</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF1F2;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background-color: #FF6696;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .email-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .email-content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 20px 0;
+        }
+        .email-signature {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+        }
+        .email-signature p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #CC0052;
+            color: #FFF1F2;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #FFF1F2;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Confirmation de Candidature</h1>
+        </div>
+        <div class="email-content">
+            <p>Bonjour {{name}},</p>
+            <p>Nous avons bien reçu votre candidature pour le projet "{{projectTitle}}".</p>
+            <p>Notre équipe examinera votre candidature et vous contactera sous peu.</p>
+            <p>Merci pour votre intérêt et votre patience.</p>
+        </div>
+        <div class="email-signature">
+            <p>Merci,</p>
+            <p>L'équipe CoFound</p>
+            <p><i>Note : Cet email est envoyé d'une adresse no-reply, veuillez ne pas répondre directement à cet email.</i></p>
+        </div>
+        <div class="footer">
+            <p>Vous avez reçu cet email car vous avez soumis une candidature sur notre site. Si ce n'est pas le cas, veuillez ignorer cet email.</p>
+            <p><a href="#">Se désabonner</a> | <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </div>
+</body>
+</html>
