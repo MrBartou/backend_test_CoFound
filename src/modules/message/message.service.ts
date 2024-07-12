@@ -4,16 +4,20 @@ import { Repository } from 'typeorm';
 import { Message } from './entities/message.entities';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class MessageService {
   constructor(
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
+    private readonly mailService: MailService,
   ) {}
 
   async create(createMessageDto: CreateMessageDto): Promise<Message> {
     const message = this.messageRepository.create(createMessageDto);
+
+    await this.mailService.newMessage(message.toUser, message);
     return this.messageRepository.save(message);
   }
 

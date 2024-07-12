@@ -6,6 +6,7 @@ import { CreateApplicationDto } from './dto/create-applications.dto';
 import { UpdateApplicationDto } from './dto/update-applications.dto';
 import { User } from '../user/entities/user.entities';
 import { Project } from '../project/entities/project.entities';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class ApplicationService {
@@ -16,6 +17,7 @@ export class ApplicationService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
+    private readonly mailService: MailService,
   ) {}
 
   async create(
@@ -41,6 +43,8 @@ export class ApplicationService {
       project,
       status: createApplicationDto.status || 'pending',
     });
+
+    await this.mailService.confirmationApplication(user, project);
 
     return this.applicationRepository.save(application);
   }
@@ -112,6 +116,7 @@ export class ApplicationService {
     }
 
     application.status = 'accepted';
+    await this.mailService.acceptApplication(application.user, project);
     return this.applicationRepository.save(application);
   }
 
@@ -125,6 +130,10 @@ export class ApplicationService {
     }
 
     application.status = 'rejected';
+    await this.mailService.refuseApplication(
+      application.user,
+      application.project,
+    );
     return this.applicationRepository.save(application);
   }
 }

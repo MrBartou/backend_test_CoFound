@@ -6,6 +6,7 @@ import { Role } from '../role/entities/role.entities';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+    private readonly mailService: MailService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -57,6 +59,9 @@ export class UserService {
   }
 
   async deactivate(id: number): Promise<void> {
+    const user = await this.findById(id);
+
+    await this.mailService.desactivateAccount(user);
     await this.userRepository.update(id, { isActive: false });
   }
 
