@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getMailConfig } from '../../config/mail.config';
@@ -17,7 +17,7 @@ import { UserModule } from '../user/user.module';
         await getMailConfig(configService),
       inject: [ConfigService],
     }),
-    UserModule,
+    forwardRef(() => UserModule),
   ],
   providers: [MailService],
   exports: [MailService],

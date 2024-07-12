@@ -7,6 +7,7 @@ import { RoleModule } from '../role/role.module';
 import { UserModule } from '../user/user.module';
 import { EntityService } from 'src/common/services/entity.service';
 import { CategorieModule } from '../categories/categorie.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import { CategorieModule } from '../categories/categorie.module';
     RoleModule,
     UserModule,
     CategorieModule,
+    MailModule,
   ],
   providers: [ProjectService, EntityService],
   controllers: [ProjectController],
-  exports: [ProjectService],
+  exports: [ProjectService, TypeOrmModule],
 })
 export class ProjectModule {}
