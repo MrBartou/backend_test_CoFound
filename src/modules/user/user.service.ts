@@ -91,7 +91,7 @@ export class UserService {
     }
 
     const role = await this.roleRepository.findOneOrFail({
-      where: { roleId: 1 },
+      where: { roleId: roleId },
     });
     if (!role) {
       throw new NotFoundException(`Role with ID ${roleId} not found`);
