@@ -6,6 +6,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { User } from '../user/entities/user.entities';
 import { Categorie } from '../categories/entities/categorie.entities';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class ProjectService {
@@ -16,6 +17,7 @@ export class ProjectService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Categorie)
     private readonly categoryRepository: Repository<Categorie>,
+    private readonly mailService: MailService,
   ) {}
 
   async create(createProjectDto: CreateProjectDto): Promise<Project> {
@@ -49,6 +51,8 @@ export class ProjectService {
       participants: participantEntities,
       categories: categoryEntities,
     });
+
+    await this.mailService.projectCreated(ownerEntity, project);
 
     return this.projectRepository.save(project);
   }
@@ -140,7 +144,19 @@ export class ProjectService {
   }
 
   async archive(id: number): Promise<Project> {
+    const project = await this.projectRepository.findOne({
+      where: { projectId: id },
+      relations: ['participants', 'categories'],
+    });
+
+    if (!project) {
+      throw new BadRequestException(`Project with ID ${id} not found`);
+    }
+
     await this.projectRepository.update(id, { status: 'archived' });
+
+    await this.mailService.projectDesactivated(project.owner, project);
+
     return this.projectRepository.findOne({
       where: { projectId: id },
       relations: ['participants', 'categories'],
@@ -148,6 +164,17 @@ export class ProjectService {
   }
 
   async remove(id: number): Promise<void> {
+    const project = await this.projectRepository.findOne({
+      where: { projectId: id },
+      relations: ['participants', 'categories'],
+    });
+
+    if (!project) {
+      throw new BadRequestException(`Project with ID ${id} not found`);
+    }
+
+    await this.mailService.projectDesactivated(project.owner, project);
+
     await this.projectRepository.delete(id);
   }
 
