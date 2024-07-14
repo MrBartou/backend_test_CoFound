@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { MailService } from '../mail/mail.service';
 import * as bcrypt from 'bcrypt';
 
@@ -96,6 +97,31 @@ export class AuthService {
       const lockTime = 30 * 60 * 1000;
       user.lockUntil = new Date(Date.now() + lockTime);
     }
+    await this.userService.update(user.userId, user);
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto): Promise<void> {
+    const { email, token, newPassword } = changePasswordDto;
+    let user;
+
+    if (token) {
+      try {
+        const decodedToken = this.jwtService.verify(token);
+        user = await this.userService.findByEmail(decodedToken.email);
+      } catch (error) {
+        throw new BadRequestException('Invalid or expired token');
+      }
+    } else if (email) {
+      user = await this.userService.findByEmail(email);
+      if (!user) {
+        throw new BadRequestException('Invalid email');
+      }
+    } else {
+      throw new BadRequestException('Email or token is required');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.passwordHash = hashedPassword;
     await this.userService.update(user.userId, user);
   }
 }
