@@ -27,7 +27,7 @@ export class StatusService {
   async checkMailService(): Promise<{ status: boolean; error?: string }> {
     try {
       await this.mailerService.sendMail({
-        to: 'test@example.com',
+        to: 'hitsradio4@gmail.com',
         subject: 'Test Email',
         template: './test',
         context: {
