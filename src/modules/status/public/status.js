@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('/status/api');
     const result = await response.json();
 
-    console.log('API Response:', result); // Log de la réponse API
+    console.log('API Response:', result);
 
     if (result && result.data && result.data.data) {
       const {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         uptime,
         databaseError,
         mailServiceError,
-      }); // Log des données analysées
+      });
 
       const statusHtml = `
         <p>
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       statusElement.innerHTML = '<p class="down">Failed to load status</p>';
     }
   } catch (error) {
-    console.error('Fetch Error:', error); // Log des erreurs de requête
+    console.error('Fetch Error:', error);
     statusElement.innerHTML = `<p class="down">Failed to load status</p><p class="error">Error: ${error.message}</p>`;
   }
 });

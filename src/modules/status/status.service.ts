@@ -44,9 +44,9 @@ export class StatusService {
 
   getServerStats() {
     return {
-      memoryUsage: process.memoryUsage().rss / 1024 / 1024, // en MB
-      cpuUsage: os.loadavg()[0], // charge moyenne du CPU sur 1 minute
-      uptime: process.uptime(), // temps de fonctionnement en secondes
+      memoryUsage: process.memoryUsage().rss / 1024 / 1024,
+      cpuUsage: os.loadavg()[0],
+      uptime: process.uptime(),
     };
   }
 
