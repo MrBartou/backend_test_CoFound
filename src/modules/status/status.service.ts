@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
+import * as os from 'os';
 
 @Injectable()
 export class StatusService {
@@ -12,18 +13,18 @@ export class StatusService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async checkDatabase(): Promise<boolean> {
+  async checkDatabase(): Promise<{ status: boolean; error?: string }> {
     try {
       await this.dataSource.query('SELECT 1');
       this.logger.log('Database connection successful');
-      return true;
+      return { status: true };
     } catch (error) {
       this.logger.error('Database connection failed', error.stack);
-      return false;
+      return { status: false, error: error.message };
     }
   }
 
-  async checkMailService(): Promise<boolean> {
+  async checkMailService(): Promise<{ status: boolean; error?: string }> {
     try {
       await this.mailerService.sendMail({
         to: 'test@example.com',
@@ -34,21 +35,35 @@ export class StatusService {
         },
       });
       this.logger.log('Mail sent successfully');
-      return true;
+      return { status: true };
     } catch (error) {
       this.logger.error('Mail sending failed', error.stack);
-      return false;
+      return { status: false, error: error.message };
     }
+  }
+
+  getServerStats() {
+    return {
+      memoryUsage: process.memoryUsage().rss / 1024 / 1024, // en MB
+      cpuUsage: os.loadavg()[0], // charge moyenne du CPU sur 1 minute
+      uptime: process.uptime(), // temps de fonctionnement en secondes
+    };
   }
 
   async getStatus(): Promise<any> {
     const databaseStatus = await this.checkDatabase();
     const mailServiceStatus = await this.checkMailService();
+    const serverStats = this.getServerStats();
 
     return {
       data: {
-        database: databaseStatus ? 'up' : 'down',
-        mailService: mailServiceStatus ? 'up' : 'down',
+        database: databaseStatus.status ? 'up' : 'down',
+        databaseError: databaseStatus.error,
+        mailService: mailServiceStatus.status ? 'up' : 'down',
+        mailServiceError: mailServiceStatus.error,
+        memoryUsage: `${serverStats.memoryUsage.toFixed(2)} MB`,
+        cpuUsage: `${serverStats.cpuUsage.toFixed(2)}`,
+        uptime: `${(serverStats.uptime / 60).toFixed(2)} minutes`,
         timestamp: new Date().toISOString(),
       },
     };
