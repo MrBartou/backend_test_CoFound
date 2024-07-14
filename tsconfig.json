@@ -20,6 +20,11 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.hbs"
+  ],
+  "exclude": [
+    "node_modules",
+    ".eslintrc.public.js"
   ]
 }
