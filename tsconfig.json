@@ -17,5 +17,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.hbs"
+  ],
+  "exclude": [
+    "node_modules",
+    ".eslintrc.public.js"
+  ]
 }

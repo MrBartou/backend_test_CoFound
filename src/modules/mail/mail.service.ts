@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserService } from '../user/user.service';
 
@@ -6,6 +6,7 @@ import { UserService } from '../user/user.service';
 export class MailService {
   constructor(
     private readonly mailerService: MailerService,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
   ) {}
 
@@ -25,7 +26,7 @@ export class MailService {
   }
 
   async sendPasswordReset(user: any, token: string) {
-    const url = `http://${process.env.BASE_URL}/auth/reset-password?token=${token}`;
+    const url = `http://${process.env.BASE_URL}/auth/change-password?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,
@@ -148,6 +149,42 @@ export class MailService {
         .sendMail(mailOptions)
         .then((info) => console.log('Message sent: %s', info.messageId))
         .catch((error) => console.log(error));
+    });
+  }
+
+  async confirmationApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a bien été envoyée',
+      template: './confirmation-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
+  async acceptApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a été acceptée',
+      template: './accept-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
+    });
+  }
+
+  async refuseApplication(user: any, project: any) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre candidature a été refusée',
+      template: './refuse-application',
+      context: {
+        name: user.name,
+        projectTitle: project.title,
+      },
     });
   }
 

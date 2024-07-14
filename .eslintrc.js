@@ -15,11 +15,31 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', '.eslintrc.public.js'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  overrides: [
+    {
+      files: ['src/public/**/*.js'],
+      excludedFiles: '*.spec.js',
+      parser: 'espree',
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      env: {
+        browser: true,
+        es6: true,
+      },
+      extends: [
+        'eslint:recommended',
+      ],
+      rules: {
+      },
+    },
+  ],
 };

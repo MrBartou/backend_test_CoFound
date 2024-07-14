@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { MailService } from '../mail/mail.service';
 import * as bcrypt from 'bcrypt';
 
@@ -22,7 +23,10 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto): Promise<void> {
     const user = await this.userService.create(createUserDto);
-    const token = this.jwtService.sign({ email: user.email });
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { expiresIn: '1h' },
+    );
 
     await this.mailService.sendUserConfirmation(user, token);
   }
@@ -52,7 +56,7 @@ export class AuthService {
     await this.userService.update(user.userId, user);
 
     const payload = { email: user.email, sub: user.userId };
-    return { accessToken: this.jwtService.sign(payload) };
+    return { accessToken: this.jwtService.sign(payload, { expiresIn: '1h' }) };
   }
 
   async validateUser(email: string): Promise<any> {
@@ -71,7 +75,10 @@ export class AuthService {
       throw new BadRequestException('Invalid email');
     }
 
-    const token = this.jwtService.sign({ email: user.email });
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { expiresIn: '1h' },
+    );
     await this.mailService.sendPasswordReset(user, token);
   }
 
@@ -90,6 +97,31 @@ export class AuthService {
       const lockTime = 30 * 60 * 1000;
       user.lockUntil = new Date(Date.now() + lockTime);
     }
+    await this.userService.update(user.userId, user);
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto): Promise<void> {
+    const { email, token, newPassword } = changePasswordDto;
+    let user;
+
+    if (token) {
+      try {
+        const decodedToken = this.jwtService.verify(token);
+        user = await this.userService.findByEmail(decodedToken.email);
+      } catch (error) {
+        throw new BadRequestException('Invalid or expired token');
+      }
+    } else if (email) {
+      user = await this.userService.findByEmail(email);
+      if (!user) {
+        throw new BadRequestException('Invalid email');
+      }
+    } else {
+      throw new BadRequestException('Email or token is required');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.passwordHash = hashedPassword;
     await this.userService.update(user.userId, user);
   }
 }

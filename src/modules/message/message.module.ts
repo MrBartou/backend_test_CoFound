@@ -6,9 +6,15 @@ import { EntityService } from 'src/common/services/entity.service';
 import { Message } from './entities/message.entities';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Message]), UserModule, RoleModule],
+  imports: [
+    TypeOrmModule.forFeature([Message]),
+    UserModule,
+    RoleModule,
+    MailModule,
+  ],
   providers: [MessageService, EntityService],
   controllers: [MessageController],
   exports: [MessageService],

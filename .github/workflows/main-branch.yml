@@ -1,0 +1,50 @@
+name: Build and Test on Main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: cofound
+          POSTGRES_USER: cofound
+          POSTGRES_PASSWORD: cofound
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U cofound"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 5432
+      DATABASE_USER: cofound
+      DATABASE_PASSWORD: cofound
+      DATABASE_NAME: cofound
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test

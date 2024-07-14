@@ -5,9 +5,11 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entities';
 import { Categorie } from '../../categories/entities/categorie.entities';
+import { Application } from '../../applications/entities/applications.entities';
 
 @Entity()
 export class Project {
@@ -55,4 +57,7 @@ export class Project {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Application, (application) => application.project)
+  applications: Application[];
 }

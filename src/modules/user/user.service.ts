@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entities';
@@ -6,6 +11,7 @@ import { Role } from '../role/entities/role.entities';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UserService {
@@ -14,6 +20,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+    @Inject(forwardRef(() => MailService))
+    private readonly mailService: MailService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -57,6 +65,9 @@ export class UserService {
   }
 
   async deactivate(id: number): Promise<void> {
+    const user = await this.findById(id);
+
+    await this.mailService.desactivateAccount(user);
     await this.userRepository.update(id, { isActive: false });
   }
 
@@ -80,7 +91,7 @@ export class UserService {
     }
 
     const role = await this.roleRepository.findOneOrFail({
-      where: { roleId: 1 },
+      where: { roleId: roleId },
     });
     if (!role) {
       throw new NotFoundException(`Role with ID ${roleId} not found`);
