@@ -7,9 +7,11 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/tranform.interceptor';
 import { ErrorsInterceptor } from './common/interceptors/errors.interceptor';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
     origin: '*',
@@ -17,6 +19,10 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept, Authorization',
     credentials: true,
   });
+
+  app.useStaticAssets(
+    join(__dirname, '..', 'dist', 'modules', 'status', 'public'),
+  );
 
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new ValidationExceptionFilter());
@@ -28,6 +34,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
